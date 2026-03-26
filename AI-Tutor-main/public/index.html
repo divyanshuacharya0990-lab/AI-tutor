@@ -1,246 +1,741 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI Tutor - Learn with AI</title>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Tutor - Learn with Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-```
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+        }
 
-<style>
-  body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
 
-  .container {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 800px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  }
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+        }
 
-  h1 {
-    text-align: center;
-    margin-bottom: 10px;
-  }
+        .sidebar-header {
+            padding: 0 25px 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-  input, select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-  }
+        .sidebar-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
 
-  .buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 0 15px;
+            margin-bottom: 30px;
+        }
 
-  button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+        .nav-item {
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 14px;
+        }
 
-  #explainBtn { background: #667eea; color: white; }
-  #quizBtn { background: #f5576c; color: white; }
-  #memeBtn { background: #48bb78; color: white; }
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
-  .output {
-  background: #f8fafc;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
-  min-height: 100px;
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-left: 3px solid white;
+        }
 
-  line-height: 1.8;        /* ✅ add this */
-  white-space: pre-line;   /* ✅ add this */
-}
- 
-  .output h2 {
-  color: #667eea;
-  margin-top: 15px;
-  font-size: 1.3rem;
-}
+        .nav-item i {
+            font-size: 18px;
+        }
 
-.output h3 {
-  color: #4a5568;
-  margin-top: 10px;
-  font-size: 1.1rem;
-}
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-.output ul {
-  padding-left: 20px;
-}
+        /* ===== HEADER ===== */
+        .header {
+            background: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-.output li {
-  margin-bottom: 6px;
-}
+        .header-left h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2d3748;
+        }
 
-  img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin: 10px 0;
-  }
-</style>
-```
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-  </head>
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            background: #f5f7fa;
+            border-radius: 8px;
+        }
 
-  <body>
-    <div class="container">
-      <h1>🎓 AI Tutor</h1>
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
 
-```
-  <input id="topic" placeholder="Enter topic..." />
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
 
-  <select id="mode">
-    <option value="default">Student</option>
-    <option value="professor">Professor</option>
-    <option value="friend">Friend</option>
-    <option value="meme">Meme</option>
-  </select>
+        /* ===== STATS CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
 
-  <div class="buttons">
-    <button id="explainBtn">Explain</button>
-    <button id="quizBtn" disabled>Quiz</button>
-    <button id="memeBtn" disabled>Meme</button>
-  </div>
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
 
-  <div class="output" id="explanation">Explanation will appear here</div>
-  <div class="output" id="quiz">Quiz will appear here</div>
-  <div class="output" id="meme">Meme will appear here</div>
-</div>
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
 
-<script>
-  const explainBtn = document.getElementById("explainBtn");
-  const quizBtn = document.getElementById("quizBtn");
-  const memeBtn = document.getElementById("memeBtn");
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
 
-  const explanationEl = document.getElementById("explanation");
-  const quizEl = document.getElementById("quiz");
-  const memeEl = document.getElementById("meme");
+        .stat-label {
+            font-size: 13px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
 
-  async function post(url, data) {
-    const controller = new AbortController();
-    const timeoutHandle = setTimeout(() => controller.abort(), 10000);
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+        }
 
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        signal: controller.signal
-      });
+        /* ===== INPUT SECTION ===== */
+        .input-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 40px;
+        }
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`HTTP ${res.status}: ${text}`);
-      }
+        .input-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #2d3748;
+        }
 
-      return await res.json();
-    } catch (err) {
-      throw new Error(err.name === 'AbortError' ? 'Request timed out (10s)' : err.message);
-    } finally {
-      clearTimeout(timeoutHandle);
-    }
-  }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-  function formatExplanation(text) {
-  let t = text;
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-  // bold
-  t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
 
-  // headings (====)
-  t = t.replace(/^(.*?)\n=+/gm, '<h2>$1</h2>');
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
 
-  // subheadings (----)
-  t = t.replace(/^(.*?)\n-+/gm, '<h3>$1</h3>');
+        /* ===== BUTTONS ===== */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
 
-  // numbered lists
-  t = t.replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>');
-  t = t.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-  // paragraphs
-  t = t.replace(/\n{2,}/g, '</p><p>');
-  t = `<p>${t}</p>`;
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
 
-  // clean empty
-  t = t.replace(/<p><\/p>/g, '');
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
 
-  return t;
-}
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
 
-  explainBtn.onclick = async () => {
-    const topic = document.getElementById("topic").value;
-    const mode = document.getElementById("mode").value;
+        .btn-secondary:hover:not(:disabled) {
+            background: #cbd5e0;
+        }
 
-    explanationEl.innerText = "Loading...";
-    const data = await post("/explain", { topic, mode });
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
 
-    explanationEl.innerHTML = formatExplanation(data.text);
-    quizBtn.disabled = false;
-    memeBtn.disabled = false;
-  };
+        .btn-success:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
+        }
 
-  quizBtn.onclick = async () => {
-    const topic = document.getElementById("topic").value;
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-    quizEl.innerText = "Loading...";
-    const data = await post("/quiz", { topic });
+        /* ===== OUTPUT SECTION ===== */
+        .output-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+            display: none;
+        }
 
-    quizEl.innerText = data.quiz;
-  };
+        .output-section.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
 
-  memeBtn.onclick = async () => {
-    const topic = document.getElementById("topic").value;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    memeEl.innerHTML = "Loading...";
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-    let data;
-    try {
-      data = await post("/meme", { topic });
-    } catch (err) {
-      data = { error: err.message || 'Failed to fetch meme' };
-    }
+        .output-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+        }
 
-    if (data.error && !data.image) {
-      const fallback = await post("/meme2", { topic });
-      data = { ...fallback, error: data.error };
-    }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #718096;
+        }
 
-    if (data.image) {
-      memeEl.innerHTML = `
-        <div style="text-align:center">
-          <p style="font-size:1.05rem; margin: 6px 0;"><b>${data.top}</b></p>
-          <img src="${data.image}" alt="Generated meme" />
-          <p style="font-size:1.05rem; margin: 6px 0;"><b>${data.bottom}</b></p>
-          ${data.error ? `<p style="color:#e53e3e;">Fallback used: ${data.error}</p>` : ""}
-          ${data.captionError ? `<p style="color:#d69e2e;">Caption fallback: ${data.captionError}</p>` : ""}
+        .close-btn:hover {
+            color: #2d3748;
+        }
+
+        .output-content {
+            background: #f5f7fa;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .output-content h2 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .output-content h3 {
+            color: #2d3748;
+            margin-top: 16px;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .output-content ul,
+        .output-content ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .output-content li {
+            margin-bottom: 8px;
+        }
+
+        .output-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #667eea;
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sidebar-nav {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="bi bi-mortarboard-fill" style="font-size: 28px;"></i>
+                <h1>AI Tutor</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-item active" onclick="setPage('dashboard')">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" onclick="setPage('learn')">
+                    <i class="bi bi-book"></i>
+                    <span>Learn</span>
+                </div>
+                <div class="nav-item" onclick="setPage('quiz')">
+                    <i class="bi bi-question-circle"></i>
+                    <span>Quiz</span>
+                </div>
+                <div class="nav-item" onclick="setPage('fun')">
+                    <i class="bi bi-emoji-smile"></i>
+                    <span>Fun Mode</span>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <h2>Welcome to AI Tutor</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <div class="avatar">👤</div>
+                        <span>Student</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENT -->
+            <div class="content">
+                <!-- STATS -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-label">Topics Learned</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-label">Quizzes Passed</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-label">Learning Streak</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                </div>
+
+                <!-- INPUT SECTION -->
+                <div class="input-section">
+                    <h3>📖 Start Your Learning Journey</h3>
+                    <div class="form-group">
+                        <label for="topic">Topic or Question</label>
+                        <input type="text" id="topic" placeholder="Enter any topic you want to learn about..." />
+                    </div>
+                    <div class="form-group">
+                        <label for="mode">Learning Mode</label>
+                        <select id="mode">
+                            <option value="default">📚 Student Mode</option>
+                            <option value="professor">👨‍🏫 Professor Mode</option>
+                            <option value="friend">👥 Friend Mode</option>
+                            <option value="meme">😂 Meme Mode</option>
+                        </select>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="explainBtn">
+                            <i class="bi bi-lightbulb"></i> Explain
+                        </button>
+                        <button class="btn btn-secondary" id="quizBtn" disabled>
+                            <i class="bi bi-question-circle"></i> Quiz
+                        </button>
+                        <button class="btn btn-success" id="memeBtn" disabled>
+                            <i class="bi bi-emoji-smile"></i> Meme
+                        </button>
+                    </div>
+                </div>
+
+                <!-- OUTPUT SECTIONS -->
+                <div class="output-section active" id="explanationSection">
+                    <div class="output-header">
+                        <h3>💡 Explanation</h3>
+                        <button class="close-btn" onclick="closeOutput('explanationSection')">×</button>
+                    </div>
+                    <div class="output-content" id="explanation">
+                        <p style="color: #a0aec0;"><i class="bi bi-info-circle"></i> Enter a topic and click "Explain" to get started!</p>
+                    </div>
+                </div>
+
+                <div class="output-section" id="quizSection">
+                    <div class="output-header">
+                        <h3>❓ Quiz</h3>
+                        <button class="close-btn" onclick="closeOutput('quizSection')">×</button>
+                    </div>
+                    <div class="output-content" id="quiz"></div>
+                </div>
+
+                <div class="output-section" id="memeSection">
+                    <div class="output-header">
+                        <h3>🎭 Meme</h3>
+                        <button class="close-btn" onclick="closeOutput('memeSection')">×</button>
+                    </div>
+                    <div class="output-content" id="meme"></div>
+                </div>
+            </div>
         </div>
-      `;
-    } else {
-      memeEl.innerText = `Meme failed: ${data.error || 'no image URL returned'}`;
-    }
-  };
-</script>
+    </div>
+
+    <script>
+        // ===== DOM ELEMENTS =====
+        const explainBtn = document.getElementById("explainBtn");
+        const quizBtn = document.getElementById("quizBtn");
+        const memeBtn = document.getElementById("memeBtn");
+
+        const explanationEl = document.getElementById("explanation");
+        const quizEl = document.getElementById("quiz");
+        const memeEl = document.getElementById("meme");
+
+        const explanationSection = document.getElementById("explanationSection");
+        const quizSection = document.getElementById("quizSection");
+        const memeSection = document.getElementById("memeSection");
+
+        // ===== LOCAL STORAGE STATS =====
+        let stats = {
+            topics: localStorage.getItem('topics') ? parseInt(localStorage.getItem('topics')) : 0,
+            quizzes: localStorage.getItem('quizzes') ? parseInt(localStorage.getItem('quizzes')) : 0,
+            streak: localStorage.getItem('streak') ? parseInt(localStorage.getItem('streak')) : 0
+        };
+
+        function updateStats() {
+            document.querySelectorAll('.stat-value')[0].innerText = stats.topics;
+            document.querySelectorAll('.stat-value')[1].innerText = stats.quizzes;
+            document.querySelectorAll('.stat-value')[2].innerText = stats.streak;
+        }
+
+        updateStats();
+
+        // ===== NAVIGATION =====
+        function setPage(page) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+        }
+
+        // ===== OUTPUT MANAGEMENT =====
+        function closeOutput(sectionId) {
+            document.getElementById(sectionId).classList.remove('active');
+        }
+
+        function showOutput(sectionId) {
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // ===== API REQUESTS =====
+        async function post(url, data) {
+            const controller = new AbortController();
+            const timeoutHandle = setTimeout(() => controller.abort(), 10000);
+
+            try {
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                    signal: controller.signal
+                });
+
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(`HTTP ${res.status}: ${text}`);
+                }
+
+                return await res.json();
+            } catch (err) {
+                throw new Error(err.name === 'AbortError' ? 'Request timed out (10s)' : err.message);
+            } finally {
+                clearTimeout(timeoutHandle);
+            }
+        }
+
+        // ===== FORMATTING =====
+        function formatExplanation(text) {
+            let t = text;
+
+            // bold
+            t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            // headings (====)
+            t = t.replace(/^(.*?)\n=+/gm, '<h2>$1</h2>');
+
+            // subheadings (----)
+            t = t.replace(/^(.*?)\n-+/gm, '<h3>$1</h3>');
+
+            // numbered lists
+            t = t.replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>');
+            t = t.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+
+            // paragraphs
+            t = t.replace(/\n{2,}/g, '</p><p>');
+            t = `<p>${t}</p>`;
+
+            // clean empty
+            t = t.replace(/<p><\/p>/g, '');
+
+            return t;
+        }
+
+        // ===== BUTTON HANDLERS =====
+        explainBtn.onclick = async () => {
+            const topic = document.getElementById("topic").value;
+            if (!topic.trim()) {
+                alert('Please enter a topic');
+                return;
+            }
+
+            const mode = document.getElementById("mode").value;
+
+            explanationEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Loading explanation...</div>';
+            showOutput('explanationSection');
+
+            try {
+                const data = await post("/explain", { topic, mode });
+                explanationEl.innerHTML = formatExplanation(data.text);
+                quizBtn.disabled = false;
+                memeBtn.disabled = false;
+
+                // Update stats
+                stats.topics++;
+                localStorage.setItem('topics', stats.topics);
+                updateStats();
+            } catch (err) {
+                explanationEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
+            }
+        };
+
+        quizBtn.onclick = async () => {
+            const topic = document.getElementById("topic").value;
+
+            quizEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Generating quiz...</div>';
+            showOutput('quizSection');
+
+            try {
+                const data = await post("/quiz", { topic });
+                quizEl.innerText = data.quiz;
+
+                // Update stats
+                stats.quizzes++;
+                localStorage.setItem('quizzes', stats.quizzes);
+                updateStats();
+            } catch (err) {
+                quizEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
+            }
+        };
+
+        memeBtn.onclick = async () => {
+            const topic = document.getElementById("topic").value;
+
+            memeEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Creating meme magic...</div>';
+            showOutput('memeSection');
+
+            try {
+                let data = await post("/meme", { topic });
+
+                if (data.error && !data.image) {
+                    const fallback = await post("/meme2", { topic });
+                    data = { ...fallback, error: data.error };
+                }
+
+                if (data.image) {
+                    memeEl.innerHTML = `
+                        <div style="text-align:center">
+                            <p style="font-size:1.1rem; margin: 12px 0; font-weight: 600;"><strong>${data.top}</strong></p>
+                            <img src="${data.image}" alt="Generated meme" style="max-width: 500px;" />
+                            <p style="font-size:1.1rem; margin: 12px 0; font-weight: 600;"><strong>${data.bottom}</strong></p>
+                            ${data.error ? `<p style="color:#d69e2e; font-size: 13px;"><i class="bi bi-info-circle"></i> Fallback used: ${data.error}</p>` : ""}
+                        </div>
+                    `;
+                } else {
+                    memeEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Meme Generation Failed:</strong> ${data.error || 'No image URL returned'}</p>`;
+                }
+            } catch (err) {
+                memeEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
+            }
+        };
+
+        // ===== KEYBOARD SHORTCUTS =====
+        document.getElementById("topic").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                explainBtn.click();
+            }
+        });
+    </script>
 ```
 
   </body>
