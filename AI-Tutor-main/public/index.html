@@ -1,0 +1,247 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Tutor - Learn with AI</title>
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  #explainBtn { background: #667eea; color: white; }
+  #quizBtn { background: #f5576c; color: white; }
+  #memeBtn { background: #48bb78; color: white; }
+
+  .output {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 100px;
+
+  line-height: 1.8;        /* ✅ add this */
+  white-space: pre-line;   /* ✅ add this */
+}
+ 
+  .output h2 {
+  color: #667eea;
+  margin-top: 15px;
+  font-size: 1.3rem;
+}
+
+.output h3 {
+  color: #4a5568;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.output ul {
+  padding-left: 20px;
+}
+
+.output li {
+  margin-bottom: 6px;
+}
+
+  img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+</style>
+```
+
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>🎓 AI Tutor</h1>
+
+```
+  <input id="topic" placeholder="Enter topic..." />
+
+  <select id="mode">
+    <option value="default">Student</option>
+    <option value="professor">Professor</option>
+    <option value="friend">Friend</option>
+    <option value="meme">Meme</option>
+  </select>
+
+  <div class="buttons">
+    <button id="explainBtn">Explain</button>
+    <button id="quizBtn" disabled>Quiz</button>
+    <button id="memeBtn" disabled>Meme</button>
+  </div>
+
+  <div class="output" id="explanation">Explanation will appear here</div>
+  <div class="output" id="quiz">Quiz will appear here</div>
+  <div class="output" id="meme">Meme will appear here</div>
+</div>
+
+<script>
+  const explainBtn = document.getElementById("explainBtn");
+  const quizBtn = document.getElementById("quizBtn");
+  const memeBtn = document.getElementById("memeBtn");
+
+  const explanationEl = document.getElementById("explanation");
+  const quizEl = document.getElementById("quiz");
+  const memeEl = document.getElementById("meme");
+
+  async function post(url, data) {
+    const controller = new AbortController();
+    const timeoutHandle = setTimeout(() => controller.abort(), 10000);
+
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        signal: controller.signal
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`HTTP ${res.status}: ${text}`);
+      }
+
+      return await res.json();
+    } catch (err) {
+      throw new Error(err.name === 'AbortError' ? 'Request timed out (10s)' : err.message);
+    } finally {
+      clearTimeout(timeoutHandle);
+    }
+  }
+
+  function formatExplanation(text) {
+  let t = text;
+
+  // bold
+  t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  // headings (====)
+  t = t.replace(/^(.*?)\n=+/gm, '<h2>$1</h2>');
+
+  // subheadings (----)
+  t = t.replace(/^(.*?)\n-+/gm, '<h3>$1</h3>');
+
+  // numbered lists
+  t = t.replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>');
+  t = t.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+
+  // paragraphs
+  t = t.replace(/\n{2,}/g, '</p><p>');
+  t = `<p>${t}</p>`;
+
+  // clean empty
+  t = t.replace(/<p><\/p>/g, '');
+
+  return t;
+}
+
+  explainBtn.onclick = async () => {
+    const topic = document.getElementById("topic").value;
+    const mode = document.getElementById("mode").value;
+
+    explanationEl.innerText = "Loading...";
+    const data = await post("/explain", { topic, mode });
+
+    explanationEl.innerHTML = formatExplanation(data.text);
+    quizBtn.disabled = false;
+    memeBtn.disabled = false;
+  };
+
+  quizBtn.onclick = async () => {
+    const topic = document.getElementById("topic").value;
+
+    quizEl.innerText = "Loading...";
+    const data = await post("/quiz", { topic });
+
+    quizEl.innerText = data.quiz;
+  };
+
+  memeBtn.onclick = async () => {
+    const topic = document.getElementById("topic").value;
+
+    memeEl.innerHTML = "Loading...";
+
+    let data;
+    try {
+      data = await post("/meme", { topic });
+    } catch (err) {
+      data = { error: err.message || 'Failed to fetch meme' };
+    }
+
+    if (data.error && !data.image) {
+      const fallback = await post("/meme2", { topic });
+      data = { ...fallback, error: data.error };
+    }
+
+    if (data.image) {
+      memeEl.innerHTML = `
+        <div style="text-align:center">
+          <p style="font-size:1.05rem; margin: 6px 0;"><b>${data.top}</b></p>
+          <img src="${data.image}" alt="Generated meme" />
+          <p style="font-size:1.05rem; margin: 6px 0;"><b>${data.bottom}</b></p>
+          ${data.error ? `<p style="color:#e53e3e;">Fallback used: ${data.error}</p>` : ""}
+          ${data.captionError ? `<p style="color:#d69e2e;">Caption fallback: ${data.captionError}</p>` : ""}
+        </div>
+      `;
+    } else {
+      memeEl.innerText = `Meme failed: ${data.error || 'no image URL returned'}`;
+    }
+  };
+</script>
+```
+
+  </body>
+</html>
