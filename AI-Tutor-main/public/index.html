@@ -438,19 +438,19 @@
                 <h1>AI Tutor</h1>
             </div>
             <nav class="sidebar-nav">
-                <div class="nav-item active" onclick="setPage('dashboard')">
+                <div class="nav-item active" data-page="dashboard">
                     <i class="bi bi-speedometer2"></i>
                     <span>Dashboard</span>
                 </div>
-                <div class="nav-item" onclick="setPage('learn')">
+                <div class="nav-item" data-page="learn">
                     <i class="bi bi-book"></i>
                     <span>Learn</span>
                 </div>
-                <div class="nav-item" onclick="setPage('quiz')">
+                <div class="nav-item" data-page="quiz">
                     <i class="bi bi-question-circle"></i>
                     <span>Quiz</span>
                 </div>
-                <div class="nav-item" onclick="setPage('fun')">
+                <div class="nav-item" data-page="fun">
                     <i class="bi bi-emoji-smile"></i>
                     <span>Fun Mode</span>
                 </div>
@@ -475,7 +475,7 @@
             <!-- CONTENT -->
             <div class="content">
                 <!-- STATS -->
-                <div class="stats-grid">
+                <div class="stats-grid" id="statsBlock">
                     <div class="stat-card">
                         <div class="stat-icon">📚</div>
                         <div class="stat-label">Topics Learned</div>
@@ -494,7 +494,7 @@
                 </div>
 
                 <!-- INPUT SECTION -->
-                <div class="input-section">
+                <div class="input-section" id="inputSection">
                     <h3>📖 Start Your Learning Journey</h3>
                     <div class="form-group">
                         <label for="topic">Topic or Question</label>
@@ -584,10 +584,33 @@
         // ===== NAVIGATION =====
         function setPage(page) {
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+                item.classList.toggle('active', item.dataset.page === page);
             });
-            event.target.closest('.nav-item').classList.add('active');
+
+            // show/hide major sections
+            document.getElementById('statsBlock').style.display = page === 'dashboard' ? 'grid' : 'none';
+            document.getElementById('inputSection').style.display = (page === 'dashboard' || page === 'learn' || page === 'quiz' || page === 'fun') ? 'block' : 'none';
+
+            explanationSection.classList.toggle('active', page === 'dashboard' || page === 'learn');
+            quizSection.classList.toggle('active', page === 'quiz');
+            memeSection.classList.toggle('active', page === 'fun');
+
+            // ensure explanation is shown by default for dashboard/learn
+            if (page === 'dashboard' || page === 'learn') {
+                explanationSection.classList.add('active');
+            }
         }
+
+        // wire up nav items
+        document.querySelectorAll('.nav-item').forEach((item) => {
+            item.addEventListener('click', () => {
+                const page = item.dataset.page;
+                setPage(page);
+            });
+        });
+
+        // initialize page view
+        setPage('dashboard');
 
         // ===== OUTPUT MANAGEMENT =====
         function closeOutput(sectionId) {
