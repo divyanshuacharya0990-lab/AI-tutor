@@ -137,13 +137,21 @@ app.post("/login", async (req, res) => {
 // ===== 📜 HISTORY =====
 app.get("/history", authMiddleware, (req, res) => {
   const history = readJson(historyFile);
-  res.json({ history: history[req.user.username] || [] });
+  const userHistory = (history[req.user.username] || [])
+    .filter(item => item.type !== "meme")
+    .slice(-3);
+  res.json({ history: userHistory });
 });
 
 app.post("/history/record", authMiddleware, (req, res) => {
   const { type, topic, result } = req.body;
-  const user = req.user.username;
 
+  // Ignore meme records in history storage
+  if (type === "meme") {
+    return res.json({ success: true });
+  }
+
+  const user = req.user.username;
   const history = readJson(historyFile);
   history[user] = history[user] || [];
 
@@ -153,6 +161,9 @@ app.post("/history/record", authMiddleware, (req, res) => {
     result,
     date: new Date().toISOString()
   });
+
+  // Keep only the 3 most recent entries per user
+  history[user] = history[user].slice(-3);
 
   writeJson(historyFile, history);
 
@@ -327,17 +338,7 @@ app.post("/meme", authMiddleware, async (req, res) => {
 
     const imageUrl = imgflipData.data.url;
 
-    // Save to history
-    const history = readJson(historyFile);
-    history[user] = history[user] || [];
-    history[user].push({ 
-      type: "meme", 
-      topic, 
-      result: `${template.name}: "${captions.join('" • "')}"`,
-      date: new Date().toISOString()
-    });
-    writeJson(historyFile, history);
-
+    // Do not save memes in history (user requested no memes in history)
     res.json({ 
       template: template.name,
       captions, 

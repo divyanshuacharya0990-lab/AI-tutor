@@ -1237,7 +1237,9 @@
                     return;
                 }
 
-                historyList.innerHTML = '<ul style="padding-left: 20px; list-style: none;">' + data.history.map(item => {
+                const recentHistory = data.history.slice(-3);
+
+                historyList.innerHTML = '<ul style="padding-left: 20px; list-style: none;">' + recentHistory.map(item => {
                     const formattedResult = item.result ? formatExplanation(item.result.toString().slice(0, 300)) : '';
                     return `
                         <li style="margin-bottom: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border-left: 3px solid #667eea;">
