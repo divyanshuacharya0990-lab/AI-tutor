@@ -661,6 +661,16 @@
             color: #667eea;
         }
 
+        /* ===== QUIZ STYLING ===== */
+        input[type="radio"] {
+            accent-color: #667eea;
+        }
+
+        input[type="radio"]:checked + span {
+            color: #667eea;
+            font-weight: 700;
+        }
+
         .output-content img {
             max-width: 100%;
             border-radius: 8px;
@@ -896,10 +906,10 @@
                     <div class="form-group">
                         <label for="mode">Learning Mode</label>
                         <select id="mode">
-                            <option value="default">📚 Student Mode</option>
+                            <option value="learn">📚 Student Mode</option>
                             <option value="professor">👨‍🏫 Professor Mode</option>
                             <option value="friend">👥 Friend Mode</option>
-                            <option value="meme">😂 Meme Mode</option>
+                            <option value="fun">😂 Fun Mode</option>
                         </select>
                     </div>
                     <div class="action-buttons">
@@ -1413,36 +1423,249 @@
 
         quizBtn.onclick = async () => {
             const topic = document.getElementById("topic").value;
+            
+            if (!topic.trim()) {
+                alert('Please enter a topic first');
+                return;
+            }
+
             quizEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Generating quiz...</div>';
             showOutput('quizSection');
 
             try {
                 const data = await post("/quiz", { topic });
-                quizEl.innerHTML = formatExplanation(data.quiz);
+                
+                if (!data.success) {
+                    throw new Error(data.error || "Quiz generation failed");
+                }
+
+                if (!data.questions || !Array.isArray(data.questions) || data.questions.length === 0) {
+                    throw new Error("No questions received from server");
+                }
+
+                // Validate question structure
+                data.questions.forEach((q, idx) => {
+                    if (!q.question || !q.options || !q.options.length || q.correctIndex === undefined || !q.explanation) {
+                        throw new Error(`Question ${idx + 1} has invalid structure`);
+                    }
+                });
+
+                // Store quiz data for evaluation
+                window.currentQuiz = {
+                    topic: data.topic,
+                    questions: data.questions,
+                    answers: new Array(data.questions.length).fill(null)
+                };
+
+                // Display quiz
+                displayQuiz(data.questions);
+                
+            } catch (err) {
+                console.error("Quiz error:", err);
+                quizEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>
+                <p style="color: #718096; font-size: 13px; margin-top: 12px;">Try entering a different topic or refreshing the page.</p>`;
+            }
+        };
+
+        // ===== DISPLAY QUIZ =====
+        function displayQuiz(questions) {
+            let quizHTML = '<div style="max-width: 100%;">';
+            
+            questions.forEach((q, idx) => {
+                quizHTML += `
+                    <div style="margin-bottom: 30px; padding: 20px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <h3 style="color: #2d3748; margin-bottom: 16px; font-size: 16px;">
+                            <span style="background: #667eea; color: white; padding: 2px 8px; border-radius: 50%; font-size: 12px;">${idx + 1}</span>
+                            ${q.question}
+                        </h3>
+                        <div style="display: grid; gap: 10px;">
+                            ${q.options.map((option, optIdx) => `
+                                <label style="display: flex; align-items: center; padding: 12px; background: white; border: 2px solid #e2e8f0; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102,126,234,0.1)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                                    <input type="radio" name="question_${idx}" value="${optIdx}" onchange="window.currentQuiz.answers[${idx}] = ${optIdx};" style="margin-right: 12px; cursor: pointer; width: 18px; height: 18px;">
+                                    <span style="color: #4a5568; font-weight: 500;">${option}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            quizHTML += `
+                <button onclick="submitQuiz()" style="width: 100%; padding: 14px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.3s ease; margin-top: 20px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(102,126,234,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <i class="bi bi-check-circle"></i> Submit Quiz
+                </button>
+            </div>
+            `;
+            
+            quizEl.innerHTML = quizHTML;
+        }
+
+        // ===== SUBMIT QUIZ =====
+        async function submitQuiz() {
+            if (!window.currentQuiz || window.currentQuiz.answers.includes(null)) {
+                alert("Please answer all questions before submitting!");
+                return;
+            }
+
+            quizEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Evaluating your quiz...</div>';
+
+            try {
+                const response = await fetch('/quiz/evaluate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        topic: window.currentQuiz.topic,
+                        questions: window.currentQuiz.questions,
+                        answers: window.currentQuiz.answers
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Quiz evaluation failed');
+                }
+
+                displayQuizResults(result);
 
                 stats.quizzes++;
                 saveStatsForUser(currentUser);
                 updateStats();
-
                 fetchHistory();
+
             } catch (err) {
                 quizEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
             }
-        };
+        }
+
+        // ===== DISPLAY RESULTS =====
+        function displayQuizResults(result) {
+            const percentage = result.percentage;
+            let scoreColor = '#e53e3e';
+            let scoreEmoji = '❌';
+
+            if (percentage >= 80) {
+                scoreColor = '#48bb78';
+                scoreEmoji = '🎉';
+            } else if (percentage >= 60) {
+                scoreColor = '#ed8936';
+                scoreEmoji = '👍';
+            }
+
+            let resultHTML = `
+                <div style="text-align: center; padding: 30px; background: linear-gradient(135deg, ${scoreColor}15 0%, ${scoreColor}05 100%); border-radius: 12px; margin-bottom: 30px; border: 2px solid ${scoreColor};">
+                    <div style="font-size: 48px; margin-bottom: 16px;">${scoreEmoji}</div>
+                    <h2 style="font-size: 28px; color: ${scoreColor}; margin-bottom: 8px;">${result.percentage}%</h2>
+                    <p style="color: #4a5568; font-size: 16px; margin-bottom: 8px;">You scored <strong>${result.score}</strong> out of <strong>${result.total}</strong></p>
+                    <p style="color: #718096; font-size: 14px;">
+                        ${percentage >= 80 ? 'Excellent work!' : percentage >= 60 ? 'Good job! Keep learning!' : 'Keep practicing!'}
+                    </p>
+                </div>
+
+                <div style="padding: 20px; background: #f9fafb; border-radius: 8px;">
+                    <h3 style="color: #2d3748; margin-bottom: 20px; font-size: 16px;">📋 Review Your Answers</h3>
+            `;
+
+            result.results.forEach((item, idx) => {
+                const isCorrect = item.isCorrect;
+                resultHTML += `
+                    <div style="margin-bottom: 20px; padding: 16px; background: white; border-left: 4px solid ${isCorrect ? '#48bb78' : '#e53e3e'}; border-radius: 6px;">
+                        <h4 style="color: #2d3748; margin-bottom: 12px; font-size: 14px;">
+                            <span style="font-weight: 600;">${idx + 1}.</span> ${item.question}
+                        </h4>
+                        <div style="margin-bottom: 12px;">
+                            <p style="color: #4a5568; font-size: 13px; margin-bottom: 6px;">
+                                <strong>Your answer:</strong> 
+                                <span style="color: ${isCorrect ? '#48bb78' : '#e53e3e'}; font-weight: 600;">${item.userAnswer}</span>
+                                ${isCorrect ? '<span style="margin-left: 8px;">✓</span>' : '<span style="margin-left: 8px;">✗</span>'}
+                            </p>
+                            ${!isCorrect ? `
+                                <p style="color: #4a5568; font-size: 13px;">
+                                    <strong>Correct answer:</strong> 
+                                    <span style="color: #48bb78; font-weight: 600;">${item.correctAnswer}</span>
+                                </p>
+                            ` : ''}
+                        </div>
+                        <p style="color: #718096; font-size: 13px; background: #f5f7fa; padding: 12px; border-radius: 4px; border-left: 2px solid #667eea;">
+                            <strong>📖 Explanation:</strong> ${item.explanation}
+                        </p>
+                    </div>
+                `;
+            });
+
+            resultHTML += `
+                    <button onclick="document.getElementById('quizSection').classList.remove('active')" style="width: 100%; padding: 12px 20px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 20px; transition: all 0.3s ease;" onmouseover="this.style.background='#cbd5e0'" onmouseout="this.style.background='#e2e8f0'">
+                        Close Results
+                    </button>
+                </div>
+            `;
+
+            quizEl.innerHTML = resultHTML;
+        }
 
         memeBtn.onclick = async () => {
             const topic = document.getElementById("topic").value;
-            memeEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Creating meme...</div>';
+            
+            if (!topic.trim()) {
+                alert('Please enter a topic first');
+                return;
+            }
+
+            memeEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Creating random meme...</div>';
             showOutput('memeSection');
 
             try {
                 const data = await post("/meme", { topic });
-                memeEl.innerHTML = `<img src="${data.image}" alt="Meme" style="max-width: 100%; border-radius: 8px;">`;
+                if (data.image) {
+                    let captionText = data.captions.join(' • ');
+                    memeEl.innerHTML = `<div style="text-align: center;">
+                                            <img src="${data.image}" alt="Meme for ${topic}" style="max-width: 100%; border-radius: 8px; cursor: pointer;" onclick="document.getElementById('memeBtn').click()">
+                                            <p style="margin-top: 10px; font-size: 12px; color: #718096; text-align: center;">Click image to refresh • Same topic, new template</p>
+                                        </div>`;
+                } else {
+                    memeEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> Failed to generate meme image</p>`;
+                }
                 fetchHistory();
             } catch (err) {
                 memeEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
             }
         };
+
+        // ===== KEYBOARD SHORTCUTS =====
+        // Enter key to Explain
+        document.getElementById("topic").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                explainBtn.click();
+            }
+        });
+
+        // Alt+D = Dashboard, Alt+L = Learn, Alt+Q = Quiz, Alt+F = Fun Mode
+        document.addEventListener('keydown', (e) => {
+            if (!e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
+            
+            switch (e.key.toLowerCase()) {
+                case 'd':
+                    e.preventDefault();
+                    setPage('dashboard');
+                    break;
+                case 'l':
+                    e.preventDefault();
+                    setPage('learn');
+                    break;
+                case 'q':
+                    e.preventDefault();
+                    setPage('quiz');
+                    break;
+                case 'f':
+                    e.preventDefault();
+                    setPage('fun');
+                    break;
+            }
+        });
     </script>
 ```
 
