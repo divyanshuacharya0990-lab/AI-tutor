@@ -19,9 +19,260 @@
             color: #2d3748;
         }
 
+        /* ===== LOGIN PAGE ===== */
+        .auth-page {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-page.hidden {
+            display: none;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            padding: 50px 40px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .auth-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .auth-header p {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 32px;
+            background: #f5f7fa;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #718096;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .auth-form .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-form .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .auth-form .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: #f9fafb;
+        }
+
+        .auth-form .form-group input::placeholder {
+            color: #a0aec0;
+        }
+
+        .password-strength {
+            font-size: 12px;
+            margin-top: 6px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            background: #cbd5e0;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        .password-strength-bar.weak {
+            background: #f56565;
+            width: 33%;
+        }
+
+        .password-strength-bar.medium {
+            background: #ed8936;
+            width: 66%;
+        }
+
+        .password-strength-bar.strong {
+            background: #48bb78;
+            width: 100%;
+        }
+
+        .form-info {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-error {
+            background: #fff5f5;
+            border: 1px solid #fc8181;
+            color: #c53030;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+            animation: shake 0.4s ease;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .auth-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .auth-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .auth-footer {
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .auth-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== DASHBOARD ===== */
         .dashboard {
             display: flex;
             min-height: 100vh;
+        }
+
+        .dashboard.hidden {
+            display: none;
         }
 
         /* ===== SIDEBAR ===== */
@@ -117,14 +368,26 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 8px 15px;
-            background: #f5f7fa;
-            border-radius: 8px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .user-status {
+            font-size: 12px;
+            color: #718096;
         }
 
         .avatar {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
@@ -132,6 +395,24 @@
             justify-content: center;
             color: white;
             font-weight: 600;
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c53030;
+            transform: translateY(-2px);
         }
 
         /* ===== CONTENT AREA ===== */
@@ -371,6 +652,15 @@
             margin-bottom: 8px;
         }
 
+        .output-content code {
+            background: #f0f4f8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #667eea;
+        }
+
         .output-content img {
             max-width: 100%;
             border-radius: 8px;
@@ -425,12 +715,111 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+
+            .auth-container {
+                max-width: 100%;
+                padding: 40px 30px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                width: 100%;
+            }
+
+            .user-profile {
+                flex: 1;
+            }
+
+            .logout-btn {
+                flex: 1;
+                min-width: 100px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="dashboard">
+    <!-- ===== AUTH PAGE ===== -->
+    <div class="auth-page" id="authPage">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="auth-logo">📚</div>
+                <h1>AI Tutor</h1>
+                <p>Learn with Intelligence</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="toggleAuthMode('login')">Login</button>
+                <button class="auth-tab" onclick="toggleAuthMode('signup')">Sign Up</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-error" id="loginError"></div>
+
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="auth-submit" id="loginSubmit">Login</button>
+
+                <div class="auth-footer">
+                    Don't have an account? <a onclick="toggleAuthMode('signup')">Sign up here</a>
+                </div>
+            </form>
+
+            <!-- SIGNUP FORM -->
+            <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-error" id="signupError"></div>
+
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" placeholder="Choose a username" required>
+                    <div class="form-info">
+                        <i class="bi bi-info-circle"></i>
+                        <span>At least 3 characters</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email (Optional)</label>
+                    <input type="email" id="signupEmail" placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a strong password" required onchange="checkPasswordStrength()">
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="form-info">
+                        <i class="bi bi-info-circle"></i>
+                        <span>At least 6 characters</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupConfirm">Confirm Password</label>
+                    <input type="password" id="signupConfirm" placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="auth-submit" id="signupSubmit">Create Account</button>
+
+                <div class="auth-footer">
+                    Already have an account? <a onclick="toggleAuthMode('login')">Login here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <div class="dashboard hidden" id="dashboard">
         <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -466,9 +855,13 @@
                 </div>
                 <div class="header-right">
                     <div class="user-profile">
-                        <div class="avatar">👤</div>
-                        <span>Student</span>
+                        <div class="avatar" id="userAvatar">A</div>
+                        <div class="user-info">
+                            <div class="user-name" id="userName">User</div>
+                            <div class="user-status">Active</div>
+                        </div>
                     </div>
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
                 </div>
             </header>
 
@@ -548,30 +941,266 @@
                     </div>
                     <div class="output-content" id="meme"></div>
                 </div>
+
+                <div class="output-section active" id="historySection">
+                    <div class="output-header">
+                        <h3>🕘 History</h3>
+                        <button class="close-btn" onclick="closeOutput('historySection')">×</button>
+                    </div>
+                    <div class="output-content" id="historyList">
+                        <p style="color: #a0aec0;">No history yet. Login and use any function to populate activity logs.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== DOM ELEMENTS =====
-        const explainBtn = document.getElementById("explainBtn");
-        const quizBtn = document.getElementById("quizBtn");
-        const memeBtn = document.getElementById("memeBtn");
+        // ===== AUTH STATE MANAGEMENT =====
+        let currentUser = null;
+        let authToken = null;
 
-        const explanationEl = document.getElementById("explanation");
-        const quizEl = document.getElementById("quiz");
-        const memeEl = document.getElementById("meme");
+        // ===== AUTH MODE TOGGLE =====
+        function toggleAuthMode(mode) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const loginTab = document.querySelectorAll('.auth-tab')[0];
+            const signupTab = document.querySelectorAll('.auth-tab')[1];
 
-        const explanationSection = document.getElementById("explanationSection");
-        const quizSection = document.getElementById("quizSection");
-        const memeSection = document.getElementById("memeSection");
+            if (mode === 'login') {
+                loginForm.classList.add('active');
+                signupForm.classList.remove('active');
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                document.getElementById('loginError').classList.remove('show');
+            } else {
+                signupForm.classList.add('active');
+                loginForm.classList.remove('active');
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                document.getElementById('signupError').classList.remove('show');
+            }
+        }
 
-        // ===== LOCAL STORAGE STATS =====
-        let stats = {
-            topics: localStorage.getItem('topics') ? parseInt(localStorage.getItem('topics')) : 0,
-            quizzes: localStorage.getItem('quizzes') ? parseInt(localStorage.getItem('quizzes')) : 0,
-            streak: localStorage.getItem('streak') ? parseInt(localStorage.getItem('streak')) : 0
-        };
+        // ===== PASSWORD STRENGTH CHECK =====
+        function checkPasswordStrength() {
+            const password = document.getElementById('signupPassword').value;
+            const strengthBar = document.getElementById('strengthBar');
+
+            strengthBar.classList.remove('weak', 'medium', 'strong');
+
+            if (password.length < 6) {
+                strengthBar.classList.add('weak');
+            } else if (password.length < 10 || !/[A-Z]/.test(password)) {
+                strengthBar.classList.add('medium');
+            } else {
+                strengthBar.classList.add('strong');
+            }
+        }
+
+        // ===== LOGIN HANDLER =====
+        async function handleLogin(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            const submitBtn = document.getElementById('loginSubmit');
+
+            errorDiv.classList.remove('show');
+
+            if (!username || !password) {
+                showError(errorDiv, 'Username and password required');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Logging in...';
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Login failed');
+                }
+
+                // Login successful
+                authToken = data.token;
+                currentUser = data.username;
+                localStorage.setItem('aiTutor_token', authToken);
+                localStorage.setItem('aiTutor_username', currentUser);
+
+                showDashboard();
+
+            } catch (err) {
+                showError(errorDiv, err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Login';
+            }
+        }
+
+        // ===== SIGNUP HANDLER =====
+        async function handleSignup(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            const errorDiv = document.getElementById('signupError');
+            const submitBtn = document.getElementById('signupSubmit');
+
+            errorDiv.classList.remove('show');
+
+            // Validation
+            if (!username || !password) {
+                showError(errorDiv, 'Username and password required');
+                return;
+            }
+
+            if (username.length < 3) {
+                showError(errorDiv, 'Username must be at least 3 characters');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError(errorDiv, 'Password must be at least 6 characters');
+                return;
+            }
+
+            if (password !== confirm) {
+                showError(errorDiv, 'Passwords do not match');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Creating account...';
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email: email || null, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Registration failed');
+                }
+
+                // Signup successful
+                authToken = data.token;
+                currentUser = data.username;
+                localStorage.setItem('aiTutor_token', authToken);
+                localStorage.setItem('aiTutor_username', currentUser);
+
+                showDashboard();
+
+            } catch (err) {
+                showError(errorDiv, err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Create Account';
+            }
+        }
+
+        // ===== SHOW/HIDE FUNCTIONS =====
+        function showError(element, message) {
+            element.innerText = message;
+            element.classList.add('show');
+        }
+
+        function showDashboard() {
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            updateUserProfile();
+            loadStatsForUser(currentUser);
+            fetchHistory();
+            setPage('dashboard');
+        }
+
+        function showAuthPage() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('authPage').classList.remove('hidden');
+            toggleAuthMode('login');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupConfirm').value = '';
+        }
+
+        function updateUserProfile() {
+            const nameChar = currentUser[0].toUpperCase();
+            document.getElementById('userAvatar').innerText = nameChar;
+            document.getElementById('userName').innerText = currentUser;
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            authToken = null;
+            localStorage.removeItem('aiTutor_token');
+            localStorage.removeItem('aiTutor_username');
+            stats = { topics: 0, quizzes: 0, streak: 0 };
+            updateStats();
+            showAuthPage();
+        }
+
+        // ===== CHECK SESSION ON LOAD =====
+        window.addEventListener('load', () => {
+            const savedToken = localStorage.getItem('aiTutor_token');
+            const savedUsername = localStorage.getItem('aiTutor_username');
+
+            if (savedToken && savedUsername) {
+                authToken = savedToken;
+                currentUser = savedUsername;
+                showDashboard();
+            } else {
+                showAuthPage();
+            }
+        });
+
+        // ===== DASHBOARD FUNCTIONALITY =====
+        let stats = { topics: 0, quizzes: 0, streak: 0 };
+
+        function statsKeyForUser(user) {
+            return `aiTutor_stats_${user}`;
+        }
+
+        function loadStatsForUser(user) {
+            if (!user) {
+                stats = { topics: 0, quizzes: 0, streak: 0 };
+                updateStats();
+                return;
+            }
+
+            const local = localStorage.getItem(statsKeyForUser(user));
+            if (local) {
+                try {
+                    stats = JSON.parse(local);
+                } catch (err) {
+                    stats = { topics: 0, quizzes: 0, streak: 0 };
+                }
+            } else {
+                stats = { topics: 0, quizzes: 0, streak: 0 };
+            }
+
+            updateStats();
+        }
+
+        function saveStatsForUser(user) {
+            if (!user) return;
+            localStorage.setItem(statsKeyForUser(user), JSON.stringify(stats));
+        }
 
         function updateStats() {
             document.querySelectorAll('.stat-value')[0].innerText = stats.topics;
@@ -579,49 +1208,45 @@
             document.querySelectorAll('.stat-value')[2].innerText = stats.streak;
         }
 
-        updateStats();
+        // ===== FETCH HISTORY =====
+        async function fetchHistory() {
+            if (!currentUser || !authToken) return;
 
-        // ===== NAVIGATION =====
-        function setPage(page) {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.toggle('active', item.dataset.page === page);
-            });
+            try {
+                const response = await fetch('/history', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
 
-            // show/hide major sections
-            document.getElementById('statsBlock').style.display = page === 'dashboard' ? 'grid' : 'none';
-            document.getElementById('inputSection').style.display = (page === 'dashboard' || page === 'learn' || page === 'quiz' || page === 'fun') ? 'block' : 'none';
+                if (!response.ok) throw new Error('Failed to load history');
 
-            explanationSection.classList.toggle('active', page === 'dashboard' || page === 'learn');
-            quizSection.classList.toggle('active', page === 'quiz');
-            memeSection.classList.toggle('active', page === 'fun');
+                const data = await response.json();
+                const historyList = document.getElementById('historyList');
 
-            // ensure explanation is shown by default for dashboard/learn
-            if (page === 'dashboard' || page === 'learn') {
-                explanationSection.classList.add('active');
+                if (!data.history || data.history.length === 0) {
+                    historyList.innerHTML = '<p style="color: #a0aec0;">No history yet. Start learning!</p>';
+                    return;
+                }
+
+                historyList.innerHTML = '<ul style="padding-left: 20px; list-style: none;">' + data.history.map(item => {
+                    const formattedResult = item.result ? formatExplanation(item.result.toString().slice(0, 300)) : '';
+                    return `
+                        <li style="margin-bottom: 24px; padding: 16px; background: #f9fafb; border-radius: 8px; border-left: 3px solid #667eea;">
+                            <strong style="color: #667eea;">${item.type.toUpperCase()}</strong> 
+                            <span style="color: #a0aec0; font-size: 12px;">[${new Date(item.date).toLocaleString()}]</span> 
+                            <em style="color: #4a5568;"> ${item.topic}</em>
+                            <div style="margin-top: 12px; font-size: 13px; color: #718096; line-height: 1.6;">
+                                ${formattedResult}
+                            </div>
+                        </li>
+                    `;
+                }).join('') + '</ul>';
+
+            } catch (err) {
+                document.getElementById('historyList').innerHTML = `<p style="color: #e53e3e;">Error loading history: ${err.message}</p>`;
             }
         }
 
-        // wire up nav items
-        document.querySelectorAll('.nav-item').forEach((item) => {
-            item.addEventListener('click', () => {
-                const page = item.dataset.page;
-                setPage(page);
-            });
-        });
-
-        // initialize page view
-        setPage('dashboard');
-
-        // ===== OUTPUT MANAGEMENT =====
-        function closeOutput(sectionId) {
-            document.getElementById(sectionId).classList.remove('active');
-        }
-
-        function showOutput(sectionId) {
-            document.getElementById(sectionId).classList.add('active');
-        }
-
-        // ===== API REQUESTS =====
+        // ===== API REQUEST WITH AUTH =====
         async function post(url, data) {
             const controller = new AbortController();
             const timeoutHandle = setTimeout(() => controller.abort(), 10000);
@@ -629,7 +1254,10 @@
             try {
                 const res = await fetch(url, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": authToken ? `Bearer ${authToken}` : ""
+                    },
                     body: JSON.stringify(data),
                     signal: controller.signal
                 });
@@ -647,32 +1275,113 @@
             }
         }
 
-        // ===== FORMATTING =====
+        // ===== FORMAT EXPLANATION =====
         function formatExplanation(text) {
             let t = text;
-
-            // bold
+            
+            // Convert markdown headers: ## Header -> <h2>
+            t = t.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+            t = t.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+            t = t.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+            
+            // Convert bold: **text** or *text*
             t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-            // headings (====)
-            t = t.replace(/^(.*?)\n=+/gm, '<h2>$1</h2>');
-
-            // subheadings (----)
-            t = t.replace(/^(.*?)\n-+/gm, '<h3>$1</h3>');
-
-            // numbered lists
+            t = t.replace(/__(.*?)__/g, '<strong>$1</strong>');
+            
+            // Convert bullet points: * item or - item
+            const bulletPattern = /^[\*\-] (.+?)$/gm;
+            let inList = false;
+            t = t.split('\n').map(line => {
+                if (bulletPattern.test(line)) {
+                    const item = line.replace(/^[\*\-] /, '');
+                    inList = true;
+                    return `<li>${item}</li>`;
+                } else if (inList && line.trim() === '') {
+                    inList = false;
+                    return line;
+                } else if (inList && !line.match(/^[\*\-] /)) {
+                    inList = false;
+                }
+                return line;
+            }).join('\n');
+            
+            // Wrap consecutive <li> items in <ul>
+            t = t.replace(/(<li>.*?<\/li>)/gs, (match) => {
+                return '<ul>' + match + '</ul>';
+            });
+            
+            // Clean up multiple <ul> tags
+            t = t.replace(/<\/ul>\s*<ul>/g, '');
+            
+            // Convert numbered lists: 1. item
             t = t.replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>');
-            t = t.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
-
-            // paragraphs
-            t = t.replace(/\n{2,}/g, '</p><p>');
-            t = `<p>${t}</p>`;
-
-            // clean empty
-            t = t.replace(/<p><\/p>/g, '');
-
-            return t;
+            t = t.replace(/(<li>.*<\/li>)/gs, (match) => {
+                if (!match.includes('<ul>')) {
+                    return '<ol>' + match + '</ol>';
+                }
+                return match;
+            });
+            
+            // Clean up multiple <ol> tags
+            t = t.replace(/<\/ol>\s*<ol>/g, '');
+            
+            // Convert inline code: `code`
+            t = t.replace(/`([^`]+)`/g, '<code style="background: #f0f4f8; padding: 2px 6px; border-radius: 3px; font-family: monospace;">$1</code>');
+            
+            // Handle paragraphs - split by double newlines
+            const paragraphs = t.split(/\n\n+/).map(p => {
+                p = p.trim();
+                // Don't wrap already formatted elements
+                if (p.match(/^<(h[1-6]|ul|ol|li)/)) {
+                    return p;
+                }
+                if (p.length === 0) return '';
+                return `<p>${p}</p>`;
+            }).join('\n');
+            
+            return paragraphs;
         }
+
+        // ===== DOM ELEMENTS =====
+        const explainBtn = document.getElementById("explainBtn");
+        const quizBtn = document.getElementById("quizBtn");
+        const memeBtn = document.getElementById("memeBtn");
+        const explanationEl = document.getElementById("explanation");
+        const quizEl = document.getElementById("quiz");
+        const memeEl = document.getElementById("meme");
+        const explanationSection = document.getElementById("explanationSection");
+        const quizSection = document.getElementById("quizSection");
+        const memeSection = document.getElementById("memeSection");
+
+        // ===== OUTPUT MANAGEMENT =====
+        function closeOutput(sectionId) {
+            document.getElementById(sectionId).classList.remove('active');
+        }
+
+        function showOutput(sectionId) {
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // ===== PAGE NAVIGATION =====
+        function setPage(page) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === page);
+            });
+
+            document.getElementById('statsBlock').style.display = page === 'dashboard' ? 'grid' : 'none';
+            document.getElementById('inputSection').style.display = (page === 'dashboard' || page === 'learn' || page === 'quiz' || page === 'fun') ? 'block' : 'none';
+
+            explanationSection.classList.toggle('active', page === 'dashboard' || page === 'learn');
+            quizSection.classList.toggle('active', page === 'quiz');
+            memeSection.classList.toggle('active', page === 'fun');
+        }
+
+        document.querySelectorAll('.nav-item').forEach((item) => {
+            item.addEventListener('click', () => {
+                const page = item.dataset.page;
+                setPage(page);
+            });
+        });
 
         // ===== BUTTON HANDLERS =====
         explainBtn.onclick = async () => {
@@ -683,7 +1392,6 @@
             }
 
             const mode = document.getElementById("mode").value;
-
             explanationEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Loading explanation...</div>';
             showOutput('explanationSection');
 
@@ -693,10 +1401,11 @@
                 quizBtn.disabled = false;
                 memeBtn.disabled = false;
 
-                // Update stats
                 stats.topics++;
-                localStorage.setItem('topics', stats.topics);
+                saveStatsForUser(currentUser);
                 updateStats();
+
+                fetchHistory();
             } catch (err) {
                 explanationEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
             }
@@ -704,18 +1413,18 @@
 
         quizBtn.onclick = async () => {
             const topic = document.getElementById("topic").value;
-
             quizEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Generating quiz...</div>';
             showOutput('quizSection');
 
             try {
                 const data = await post("/quiz", { topic });
-                quizEl.innerText = data.quiz;
+                quizEl.innerHTML = formatExplanation(data.quiz);
 
-                // Update stats
                 stats.quizzes++;
-                localStorage.setItem('quizzes', stats.quizzes);
+                saveStatsForUser(currentUser);
                 updateStats();
+
+                fetchHistory();
             } catch (err) {
                 quizEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
             }
@@ -723,63 +1432,17 @@
 
         memeBtn.onclick = async () => {
             const topic = document.getElementById("topic").value;
-
-            memeEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Creating meme magic...</div>';
+            memeEl.innerHTML = '<div class="loading"><i class="bi bi-arrow-repeat spinner"></i> Creating meme...</div>';
             showOutput('memeSection');
 
             try {
-                let data = await post("/meme", { topic });
-
-                if (data.error && !data.image) {
-                    const fallback = await post("/meme2", { topic });
-                    data = { ...fallback, error: data.error };
-                }
-
-                if (data.image) {
-                    memeEl.innerHTML = `
-                        <div style="text-align:center">
-                            <p style="font-size:1.1rem; margin: 12px 0; font-weight: 600;"><strong>${data.top}</strong></p>
-                            <img src="${data.image}" alt="Generated meme" style="max-width: 500px;" />
-                            <p style="font-size:1.1rem; margin: 12px 0; font-weight: 600;"><strong>${data.bottom}</strong></p>
-                            ${data.error ? `<p style="color:#d69e2e; font-size: 13px;"><i class="bi bi-info-circle"></i> Fallback used: ${data.error}</p>` : ""}
-                        </div>
-                    `;
-                } else {
-                    memeEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Meme Generation Failed:</strong> ${data.error || 'No image URL returned'}</p>`;
-                }
+                const data = await post("/meme", { topic });
+                memeEl.innerHTML = `<img src="${data.image}" alt="Meme" style="max-width: 100%; border-radius: 8px;">`;
+                fetchHistory();
             } catch (err) {
                 memeEl.innerHTML = `<p style="color: #e53e3e;"><strong>❌ Error:</strong> ${err.message}</p>`;
             }
         };
-
-        // ===== KEYBOARD SHORTCUTS =====
-        document.getElementById("topic").addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                explainBtn.click();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (!e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
-            switch (e.key.toLowerCase()) {
-                case 'd':
-                    e.preventDefault();
-                    setPage('dashboard');
-                    break;
-                case 'l':
-                    e.preventDefault();
-                    setPage('learn');
-                    break;
-                case 'q':
-                    e.preventDefault();
-                    setPage('quiz');
-                    break;
-                case 'f':
-                    e.preventDefault();
-                    setPage('fun');
-                    break;
-            }
-        });
     </script>
 ```
 

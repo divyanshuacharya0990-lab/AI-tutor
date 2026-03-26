@@ -1,0 +1,32 @@
+{
+  "abc": {
+    "username": "abc",
+    "lastLogin": "2026-03-26T18:50:01.062Z"
+  },
+  "abd": {
+    "username": "abd",
+    "lastLogin": "2026-03-26T18:41:49.348Z"
+  },
+  "efg": {
+    "username": "efg",
+    "lastLogin": "2026-03-26T18:42:01.800Z"
+  },
+  "ab": {
+    "username": "ab",
+    "lastLogin": "2026-03-26T20:01:48.059Z"
+  },
+  "b": {
+    "username": "b",
+    "lastLogin": "2026-03-26T19:34:55.599Z"
+  },
+  "c": {
+    "username": "c",
+    "lastLogin": "2026-03-26T19:45:12.783Z"
+  },
+  "harsh": {
+    "username": "harsh",
+    "email": null,
+    "password": "$2b$10$fvha6voHnpvNwPCMfV6w/eIBkOmJ8xHIuAbt8vq6KqCbEQ19S7epe",
+    "createdAt": "2026-03-26T20:29:30.774Z"
+  }
+}
