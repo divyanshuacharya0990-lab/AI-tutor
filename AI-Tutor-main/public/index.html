@@ -758,6 +758,28 @@
                 explainBtn.click();
             }
         });
+
+        document.addEventListener('keydown', (e) => {
+            if (!e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
+            switch (e.key.toLowerCase()) {
+                case 'd':
+                    e.preventDefault();
+                    setPage('dashboard');
+                    break;
+                case 'l':
+                    e.preventDefault();
+                    setPage('learn');
+                    break;
+                case 'q':
+                    e.preventDefault();
+                    setPage('quiz');
+                    break;
+                case 'f':
+                    e.preventDefault();
+                    setPage('fun');
+                    break;
+            }
+        });
     </script>
 ```
 
