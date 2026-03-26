@@ -364,14 +364,20 @@ app.post("/quiz", authMiddleware, async (req, res) => {
       messages: [
         { 
           role: "user", 
-          content: `Generate 5 quiz questions on "${topic}". Output ONLY valid JSON array, no markdown, no explanation before or after.
+          content: `Generate 10 quiz questions on "${topic}". Make 5 of the questions conceptually tough and the other 5 medium-level.
+          Output ONLY a valid JSON array, no markdown, no explanation before or after.
 
 [
   {"q": "Question 1?", "opts": ["A", "B", "C", "D"], "ans": 0, "exp": "Explanation"},
   {"q": "Question 2?", "opts": ["A", "B", "C", "D"], "ans": 1, "exp": "Explanation"},
   {"q": "Question 3?", "opts": ["A", "B", "C", "D"], "ans": 2, "exp": "Explanation"},
   {"q": "Question 4?", "opts": ["A", "B", "C", "D"], "ans": 3, "exp": "Explanation"},
-  {"q": "Question 5?", "opts": ["A", "B", "C", "D"], "ans": 0, "exp": "Explanation"}
+  {"q": "Question 5?", "opts": ["A", "B", "C", "D"], "ans": 0, "exp": "Explanation"},
+  {"q": "Question 6?", "opts": ["A", "B", "C", "D"], "ans": 1, "exp": "Explanation"},
+  {"q": "Question 7?", "opts": ["A", "B", "C", "D"], "ans": 2, "exp": "Explanation"},
+  {"q": "Question 8?", "opts": ["A", "B", "C", "D"], "ans": 3, "exp": "Explanation"},
+  {"q": "Question 9?", "opts": ["A", "B", "C", "D"], "ans": 0, "exp": "Explanation"},
+  {"q": "Question 10?", "opts": ["A", "B", "C", "D"], "ans": 1, "exp": "Explanation"}
 ]
 
 IMPORTANT: Return ONLY the JSON array, nothing else.`
@@ -402,7 +408,7 @@ IMPORTANT: Return ONLY the JSON array, nothing else.`
     }
 
     // Transform short format to long format
-    questions = questions.slice(0, 5).map((q, idx) => {
+    questions = questions.slice(0, 10).map((q, idx) => {
       if (!q.q || !q.opts || !Array.isArray(q.opts) || q.opts.length < 2 || q.ans === undefined || !q.exp) {
         console.error(`Question ${idx + 1} format:`, q);
         throw new Error(`Question ${idx + 1} missing fields`);
