@@ -47,6 +47,13 @@ A cutting-edge AI-powered educational platform that makes learning engaging, per
 - Sub-second response times for explanations and quizzes
 - Efficient Node.js/Express backend with optimized API calls
 
+### ⌨️ Keyboard Shortcuts
+- **Enter** - Trigger explanation from the topic input
+- **Alt+D** - Navigate to Dashboard
+- **Alt+L** - Switch to Learn mode
+- **Alt+Q** - Switch to Quiz mode
+- **Alt+F** - Switch to Fun mode
+
 ## 🛠️ Tech Stack
 
 ### Backend
