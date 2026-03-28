@@ -178,16 +178,6 @@ GET /history
 Authorization: Bearer <jwt_token>
 ```
 
-## �️ Screenshots
-
-Add your UI screenshots to the repository (example path: `docs/screenshots/`) and then include them here. This helps users immediately understand the interface.
-
-![AI Tutor Dashboard](docs/screenshots/dashboard.png)
-*AI Tutor dashboard showing topic cards, progress metrics, and navigation.*
-
-![AI Tutor Quiz](docs/screenshots/quiz.png)
-*Generated quiz interface with questions and multiple choice answers.*
-
 ## 📁 Project Structure
 
 ```
