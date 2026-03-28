@@ -10,9 +10,9 @@ A cutting-edge AI-powered educational platform that makes learning engaging, per
 ## 🖼️ Live UI Preview
 
 <div align="center">
-  <img src="docs/screenshots/dashboard.svg" alt="AI Tutor Dashboard" width="800" />
+  <img src="docs/screenshots/dashboard.png" alt="AI Tutor Dashboard" width="800" />
   <p><em>AI Tutor dashboard showing topic cards, progress metrics, and navigation.</em></p>
-  <img src="docs/screenshots/quiz.svg" alt="AI Tutor Quiz" width="800" />
+  <img src="docs/screenshots/quiz.png" alt="AI Tutor Quiz" width="800" />
   <p><em>Generated quiz interface with questions and multiple choice answers.</em></p>
 </div>
 
