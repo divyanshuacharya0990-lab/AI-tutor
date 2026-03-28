@@ -28,5 +28,11 @@
     "email": null,
     "password": "$2b$10$fvha6voHnpvNwPCMfV6w/eIBkOmJ8xHIuAbt8vq6KqCbEQ19S7epe",
     "createdAt": "2026-03-26T20:29:30.774Z"
+  },
+  "tester": {
+    "username": "tester",
+    "email": null,
+    "password": "$2b$10$2Fj33NwlbH.RyTNCYsNSneMGKsNblxnZabR7NuQEctO4IORPePxjS",
+    "createdAt": "2026-03-28T12:37:09.643Z"
   }
 }

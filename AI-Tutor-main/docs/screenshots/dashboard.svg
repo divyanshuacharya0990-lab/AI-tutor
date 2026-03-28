@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#f5f7fa"/>
+  <rect x="40" y="40" width="1120" height="120" rx="16" fill="#ffffff" stroke="#dce2ef" stroke-width="2"/>
+  <text x="80" y="90" font-family="Inter, sans-serif" font-size="40" fill="#2d3748">AI Tutor Dashboard</text>
+  <text x="80" y="140" font-family="Inter, sans-serif" font-size="24" fill="#4a5568">(auto-generated placeholder screenshot)</text>
+  <rect x="40" y="200" width="520" height="120" rx="12" fill="#ffffff" stroke="#dce2ef" stroke-width="2"/>
+  <rect x="620" y="200" width="520" height="120" rx="12" fill="#ffffff" stroke="#dce2ef" stroke-width="2"/>
+  <rect x="40" y="350" width="520" height="120" rx="12" fill="#ffffff" stroke="#dce2ef" stroke-width="2"/>
+  <rect x="620" y="350" width="520" height="120" rx="12" fill="#ffffff" stroke="#dce2ef" stroke-width="2"/>
+  <text x="80" y="250" font-family="Inter, sans-serif" font-size="20" fill="#4a5568">Topics Learned</text>
+  <text x="80" y="280" font-family="Inter, sans-serif" font-size="34" fill="#2d3748">5</text>
+  <text x="660" y="250" font-family="Inter, sans-serif" font-size="20" fill="#4a5568">Quizzes Passed</text>
+  <text x="660" y="280" font-family="Inter, sans-serif" font-size="34" fill="#2d3748">0</text>
+</svg>

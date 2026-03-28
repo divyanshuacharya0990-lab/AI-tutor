@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#f5f7fa"/>
+  <rect x="40" y="40" width="1120" height="120" rx="16" fill="#ffffff" stroke="#dce2ef" stroke-width="2"/>
+  <text x="80" y="90" font-family="Inter, sans-serif" font-size="40" fill="#2d3748">AI Tutor Quiz</text>
+  <text x="80" y="140" font-family="Inter, sans-serif" font-size="24" fill="#4a5568">(auto-generated placeholder screenshot)</text>
+  <rect x="60" y="220" width="1080" height="90" rx="12" fill="#ffffff" stroke="#a3bffa" stroke-width="2"/>
+  <rect x="60" y="330" width="1080" height="90" rx="12" fill="#ffffff" stroke="#a3bffa" stroke-width="2"/>
+  <rect x="60" y="440" width="1080" height="90" rx="12" fill="#ffffff" stroke="#a3bffa" stroke-width="2"/>
+  <text x="80" y="270" font-family="Inter, sans-serif" font-size="24" fill="#2d3748">1. What is the purpose of the 'finally' block?</text>
+  <text x="80" y="380" font-family="Inter, sans-serif" font-size="24" fill="#2d3748">2. Which Java keyword is used to create a new thread?</text>
+</svg>
