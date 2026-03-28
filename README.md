@@ -7,6 +7,15 @@
 
 A cutting-edge AI-powered educational platform that makes learning engaging, personalized, and fun. Built with modern web technologies and powered by Groq's lightning-fast AI models, AI Tutor provides intelligent explanations, interactive quizzes, and even meme-based learning to revolutionize the way students absorb knowledge.
 
+## 🖼️ Live UI Preview
+
+<div align="center">
+  <img src="docs/screenshots/dashboard.svg" alt="AI Tutor Dashboard" width="800" />
+  <p><em>AI Tutor dashboard showing topic cards, progress metrics, and navigation.</em></p>
+  <img src="docs/screenshots/quiz.svg" alt="AI Tutor Quiz" width="800" />
+  <p><em>Generated quiz interface with questions and multiple choice answers.</em></p>
+</div>
+
 ## ✨ Features
 
 ### 🎓 Intelligent Learning Modes
@@ -168,6 +177,16 @@ GET /history
 Authorization: Bearer <jwt_token>
 ```
 
+## �️ Screenshots
+
+Add your UI screenshots to the repository (example path: `docs/screenshots/`) and then include them here. This helps users immediately understand the interface.
+
+![AI Tutor Dashboard](docs/screenshots/dashboard.png)
+*AI Tutor dashboard showing topic cards, progress metrics, and navigation.*
+
+![AI Tutor Quiz](docs/screenshots/quiz.png)
+*Generated quiz interface with questions and multiple choice answers.*
+
 ## 📁 Project Structure
 
 ```
@@ -179,6 +198,8 @@ AI-Tutor-main/
 ├── data/
 │   ├── users.json         # User data storage
 │   └── history.json       # Learning history storage
+├── docs/
+│   └── screenshots/       # Suggested place for README images
 ├── env.example            # Environment variables template
 ├── README.md              # This file
 └── LICENSE                # ISC License
